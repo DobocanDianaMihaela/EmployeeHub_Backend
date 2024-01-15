@@ -1,0 +1,108 @@
+@startuml
+
+autoactivate on
+
+actor User
+participant "DepartmentController" as DC
+participant "DepartmentService" as DS
+participant "DepartmentRepository" as DR
+
+User -> DC: GET /api/department
+DC -> DS: getAllDepartments()
+DS -> DR: findAll()
+DR --> DS: List<Department>
+DS --> DC: List<Department>
+DC --> User: List<Department>
+
+User -> DC: POST /api/department
+DC -> DS: create(department)
+DS -> DR: save(department)
+DR --> DS: department
+DS --> DC: department
+DC --> User: department
+
+User -> DC: GET /api/department/{departmentID}
+DC -> DS: getDepartmentById(departmentID)
+DS -> DR: findById(departmentID)
+DR --> DS: Optional<Department>
+DS --> DC: department
+DC --> User: department
+
+User -> DC: PUT /api/department/{departmentID}
+DC -> DS: updateDepartment(departmentID, department)
+DS -> DR: save(department)
+DR --> DS: department
+DS --> DC: department
+DC --> User: department
+
+User -> DC: DELETE /api/department/{departmentID}
+DC -> DS: deleteDepartment(departmentID)
+DS -> DR: deleteById(departmentID)
+DR --> DS
+DC --> User
+
+
+
+autoactivate on
+
+actor User
+participant "EmployeeController" as EC
+participant "EmployeeService" as ES
+participant "EmployeeRepository" as ER
+
+User -> EC: GET /api/employee
+EC -> ES: getAllEmployees()
+ES -> ER: findAll()
+ER --> ES: List<Employee>
+ES --> EC: List<Employee>
+EC --> User: List<Employee>
+
+User -> EC: POST /api/employee
+EC -> ES: create(employee)
+ES -> ER: save(employee)
+ER --> ES: employee
+ES --> EC: employee
+EC --> User: employee
+
+User -> EC: GET /api/employee/{employeeID}
+EC -> ES: getEmployeeById(employeeID)
+ES -> ER: findById(employeeID)
+ER --> ES: Optional<Employee>
+ES --> EC: employee
+EC --> User: employee
+
+User -> EC: PUT /api/employee/{employeeID}
+EC -> ES: updateEmployee(employeeID, employee)
+ES -> ER: save(employee)
+ER --> ES: employee
+ES --> EC: employee
+EC --> User: employee
+
+User -> EC: DELETE /api/employee/{employeeID}
+EC -> ES: deleteEmployee(employeeID)
+ES -> ER: deleteById(employeeID)
+ER --> ES
+EC --> User
+
+User -> EC: GET /api/employeesByDepartment
+EC -> ES: getAllEmployeesPerDepartment(departmentID)
+ES -> ER: findByDepartmentID(departmentID)
+ER --> ES: List<Employee>
+ES --> EC: List<Employee>
+EC --> User: List<Employee>
+
+User -> EC: GET /api/managersByDepartment
+EC -> ES: getAllManagersPerDepartment(departmentID)
+ES -> ER: findEmployeesByDepartmentIDAndManagerIDNot(departmentID,0)
+ER --> ES: List<Employee>
+ES --> EC: List<Employee>
+EC --> User: List<Employee>
+
+User -> EC: GET /api/employeesByName
+EC -> ES: getEmployeesByName(name)
+ES -> ER: findByName(name)
+ER --> ES: List<Employee>
+ES --> EC: List<Employee>
+EC --> User: List<Employee>
+
+@enduml
